@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name:   cbnet Manage Plugins Donate Link
- * Plugin URI:    http://www.chipbennett.net/wordpress/plugins/cbnet-manage-plugins-donate-link/
+ * Plugin URI:    http://www.chipbennett.net/plugins/cbnet-manage-plugins-donate-links/
  * Description:   Add a Donate link in the plugin_row_meta for each installed plugin on the Manage Plugins page.
  * Version:       1.0
  * Author:        chipbennett
@@ -26,38 +26,38 @@
  */
  
 class cbnetmpdl{
-    function cbnetmpdl(){
-        if(is_admin()){
-            add_filter('plugin_row_meta',array(&$this,'cbnet_display_donate_link'),99,2);
+    function cbnetmpdl() {
+        if ( is_admin() ) {
+            add_filter( 'plugin_row_meta', array( &$this, 'cbnet_display_donate_link' ), 99, 2 );
         }
     }
 	
-	function cbnet_display_donate_link($links,$plugin_file){
+	function cbnet_display_donate_link( $links, $plugin_file ){
 		$donate_link_already_exists = 'false';
 		$existing_links = $links;
-		foreach ($existing_links as $link){
-			if( $donate_link_already_exists == 'false' ) {
-				$other_donate_link = ( strpos(strtolower(trim($link)),'donate') !== false ? 'true' : 'false' );
-				if( $other_donate_link == 'true' ){
+		foreach ( $existing_links as $link ) {
+			if( 'false' == $donate_link_already_exists ) {
+				$other_donate_link = ( false !== strpos( strtolower( trim( $link ) ), 'donate' ) ? 'true' : 'false' );
+				if( 'true' == $other_donate_link ){
 					$donate_link_already_exists = 'true';
 				}
 			}
 		}
-		if( $donate_link_already_exists == 'false' ) {
+		if( 'false' == $donate_link_already_exists ) {
 			$donate_uri = false;
-			$readmeFile = WP_PLUGIN_DIR.'/'.dirname($plugin_file).'/readme.txt';
-			if(file_exists($readmeFile)){
-				$readme = file($readmeFile,FILE_SKIP_EMPTY_LINES);
-				foreach ($readme as $line){ 
-					$donate_link_exists = ( stripos($line , 'donate' ) !== false ? 'true' : 'false' );
-					if( $donate_link_exists == 'true' ){ 
-						$donate_uri=trim(substr($line,strpos($line,':')+1));
+			$readmeFile = WP_PLUGIN_DIR . '/' . dirname( $plugin_file ) . '/readme.txt';
+			if ( file_exists( $readmeFile ) ) {
+				$readme = file( $readmeFile, FILE_SKIP_EMPTY_LINES );
+				foreach ( $readme as $line ) { 
+					$donate_link_exists = ( false !== stripos( $line , 'donate' ) ? 'true' : 'false' );
+					if( 'true' == $donate_link_exists ){ 
+						$donate_uri = trim( substr( $line, strpos( $line, ':' ) + 1 ) );
 						$donate_link_text = 'Donate';
 						break;
 					} 
 				}
 			} 
-			if ( $donate_uri !== false) {
+			if ( false !== $donate_uri ) {
 			$donate_link = '<a href="' . $donate_uri  . '" target="_blank">' . $donate_link_text . '</a>';
 			$links[] = $donate_link;
 			}

@@ -3,7 +3,7 @@ Contributors: chipbennett
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QP3N9HUSYJPK6
 Tags: cbnet, plugin, plugins, manage, readme, readme.txt, Donate, Donate link, Donate URI
 Requires at least: 2.9
-Tested up to: 3.0.3
+Tested up to: 3.5
 Stable tag: 1.0
 
 Add a Donate link in the plugin_row_meta for each installed plugin on the Manage Plugins page.
