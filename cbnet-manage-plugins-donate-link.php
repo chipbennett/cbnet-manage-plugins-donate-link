@@ -3,7 +3,7 @@
  * Plugin Name:   cbnet Manage Plugins Donate Link
  * Plugin URI:    http://www.chipbennett.net/plugins/cbnet-manage-plugins-donate-links/
  * Description:   Add a Donate link in the plugin_row_meta for each installed plugin on the Manage Plugins page.
- * Version:       1.0
+ * Version:       1.1
  * Author:        chipbennett
  * Author URI:    http://www.chipbennett.net/
  *
@@ -25,6 +25,19 @@
  * WPTavern Forum (http://www.wptavern.com/forum) for their help.
  */
  
+/**
+ * Load Plugin textdomain
+ */
+function cbnetmpdl_load_textdomain() {
+	load_plugin_textdomain( 'cbnetmpdl', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' ); 
+}
+// Load Plugin textdomain
+add_action( 'plugins_loaded', 'cbnetmpdl_load_textdomain' );
+
+
+/**
+ * Class to add donate links
+ */
 class cbnetmpdl{
     function cbnetmpdl() {
         if ( is_admin() ) {
@@ -52,7 +65,7 @@ class cbnetmpdl{
 					$donate_link_exists = ( false !== stripos( $line , 'donate' ) ? 'true' : 'false' );
 					if( 'true' == $donate_link_exists ){ 
 						$donate_uri = trim( substr( $line, strpos( $line, ':' ) + 1 ) );
-						$donate_link_text = 'Donate';
+						$donate_link_text = __( 'Donate', 'cbnetmpdl' );
 						break;
 					} 
 				}
